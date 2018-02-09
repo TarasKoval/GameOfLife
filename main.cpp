@@ -1,5 +1,7 @@
 #include <iostream>
 #include <fstream>
+#include <chrono>
+#include <thread>
 
 class Game {
     static const int height = 40;
@@ -29,11 +31,44 @@ public:
         } while (input < 1 || input > 3);
     }
 
-    void gliderPattern() {
+    void back() {
         for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++)
+            for (int j = 0; j < width; j++) {
                 currentBoard[i][j] = '.';
+                tempBoard[i][j] = '.';
+            }
         }
+    }
+
+    void loadFile() {
+        /*
+         * back();
+
+        std::string str;
+        std::ifstream myReadFile("/home/antares/CLionProjects/GameOfLife/game1/file.txt");
+        if (!myReadFile) {
+            std::cout << "wrong address to the file" << std::endl;
+            return;
+        }
+
+        while (getline(myReadFile, str)) {
+            {
+
+
+
+                std::cout << str << std::endl;
+
+
+            }
+        }
+        myReadFile.close();
+         */
+        std::cout << "load file";
+
+    }
+
+    void gliderPattern() {
+        back();
 
         currentBoard[0][1] = '0';
         currentBoard[1][2] = '0';
@@ -42,13 +77,12 @@ public:
         currentBoard[2][2] = '0';
 
         printBoard();
+        callNextGen();
+
     }
 
     void pulsarPattern() {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++)
-                currentBoard[i][j] = '.';
-        }
+        back();
 
         currentBoard[2][4] = '0';
         currentBoard[2][5] = '0';
@@ -112,10 +146,8 @@ public:
     }
 
     void gliderGunPattern() {
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++)
-                currentBoard[i][j] = '.';
-        }
+        back();
+
         currentBoard[5][1] = '0';
         currentBoard[6][1] = '0';
         currentBoard[5][2] = '0';
@@ -160,6 +192,7 @@ public:
     }
 
     void printBoard() {
+
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++)
                 std::cout << currentBoard[i][j] << ' ';
@@ -174,14 +207,92 @@ public:
             do {
                 std::cout << "\n\n\n\nMenu\n";
                 std::cout << "(1) Start game with pattern\n";
-                std::cout << "(2) Exit\n";
+                std::cout << "(2) Start game with file\n";
+                std::cout << "(3) Exit\n";
                 std::cin >> input;
-            } while (input < 1 || input > 2);
+            } while (input < 1 || input > 3);
 
             if (input == 1) loadPattern();
+            else if (input == 2) loadFile();
             else return;
 
-        } while (input != 2);
+        } while (input != 3);
+    }
+
+    int neighbours(int x, int y) {
+        int count = 0;
+
+        if (currentBoard[x - 1][y - 1] == '0') {
+            count += 1;
+        }
+        if (currentBoard[x - 1][y] == '0') {
+            count += 1;
+        }
+        if (currentBoard[x - 1][y + 1] == '0') {
+            count += 1;
+        }
+        if (currentBoard[x][y - 1] == '0') {
+            count += 1;
+        }
+        if (currentBoard[x][y + 1] == '0') {
+            count += 1;
+        }
+        if (currentBoard[x + 1][y - 1] == '0') {
+            count += 1;
+        }
+        if (currentBoard[x + 1][y] == '0') {
+            count += 1;
+        }
+        if (currentBoard[x + 1][y + 1] == '0') {
+            count += 1;
+        }
+
+        return count;
+    }
+
+    void callNextGen() {
+        int number = 50;
+        for (int i = 0; i < number; i++) {
+            nextGen();
+        }
+    }
+
+    void nextGen() {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (currentBoard[i][j] == '0') {
+                    if (neighbours(i, j) < 2) {
+                        tempBoard[i][j] = '.';
+                    } else if (neighbours(i, j) > 3) {
+                        tempBoard[i][j] = '.';
+
+                    } else {
+                        tempBoard[i][j] = '0';
+
+                    }
+                } else {
+                    if (neighbours(i, j) == 3) {
+                        tempBoard[i][j] = '0';
+
+                    } else {
+                        tempBoard[i][j] = '.';
+
+                    }
+                }
+            }
+        }
+        copyDataToCurrentGrid();
+        std::cout << "\n\n\n\n\n";
+        printBoard();
+        std::this_thread::sleep_for (std::chrono::milliseconds(100));
+    }
+
+    void copyDataToCurrentGrid() {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                currentBoard[i][j] = tempBoard[i][j];
+            }
+        }
     }
 };
 
