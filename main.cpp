@@ -31,7 +31,7 @@ public:
         } while (input < 1 || input > 3);
     }
 
-    void back() {
+    void printBack() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 currentBoard[i][j] = '.';
@@ -40,49 +40,18 @@ public:
         }
     }
 
-    void loadFile() {
-        /*
-         * back();
-
-        std::string str;
-        std::ifstream myReadFile("/home/antares/CLionProjects/GameOfLife/game1/file.txt");
-        if (!myReadFile) {
-            std::cout << "wrong address to the file" << std::endl;
-            return;
-        }
-
-        while (getline(myReadFile, str)) {
-            {
-
-
-
-                std::cout << str << std::endl;
-
-
-            }
-        }
-        myReadFile.close();
-         */
-        std::cout << "load file";
-
-    }
-
     void gliderPattern() {
-        back();
+        printBack();
 
         currentBoard[0][1] = '0';
         currentBoard[1][2] = '0';
         currentBoard[2][0] = '0';
         currentBoard[2][1] = '0';
         currentBoard[2][2] = '0';
-
-        printBoard();
-        callNextGen();
-
     }
 
     void pulsarPattern() {
-        back();
+        printBack();
 
         currentBoard[2][4] = '0';
         currentBoard[2][5] = '0';
@@ -141,12 +110,10 @@ public:
         currentBoard[14][10] = '0';
         currentBoard[14][11] = '0';
         currentBoard[14][12] = '0';
-
-        printBoard();
     }
 
     void gliderGunPattern() {
-        back();
+        printBack();
 
         currentBoard[5][1] = '0';
         currentBoard[6][1] = '0';
@@ -187,8 +154,6 @@ public:
         currentBoard[4][35] = '0';
         currentBoard[3][36] = '0';
         currentBoard[4][36] = '0';
-
-        printBoard();
     }
 
     void printBoard() {
@@ -199,6 +164,32 @@ public:
             std::cout << std::endl;
 
         }
+    }
+
+    void startGen() {
+        int numberOfGenerations = 0;
+        char answer;
+        do {
+
+            do {
+                std::cout << "How many generations would you like to simulate? ";
+                std::cin >> numberOfGenerations;
+            } while (numberOfGenerations < 1 || numberOfGenerations > 300);
+
+
+            for (int i = 0; i < numberOfGenerations; i++) {
+                nextGen();
+                std::cout << "\n\n\n\n\n";
+                printBoard();
+                std::this_thread::sleep_for(std::chrono::milliseconds(100));
+            }
+            do {
+                std::cout << "Do you want to continue simulation? (y/n)";
+                std::cin >> answer;
+            } while (answer != 'y' && answer != 'n');
+
+
+        } while (answer == 'y');
     }
 
     void showMenu() {
@@ -212,9 +203,13 @@ public:
                 std::cin >> input;
             } while (input < 1 || input > 3);
 
-            if (input == 1) loadPattern();
-            else if (input == 2) loadFile();
-            else return;
+            if (input == 1) {
+                loadPattern();
+                printBoard();
+                startGen();
+            } else if (input == 2) {
+                loadFile();
+            } else return;
 
         } while (input != 3);
     }
@@ -250,13 +245,6 @@ public:
         return count;
     }
 
-    void callNextGen() {
-        int number = 50;
-        for (int i = 0; i < number; i++) {
-            nextGen();
-        }
-    }
-
     void nextGen() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
@@ -281,18 +269,40 @@ public:
                 }
             }
         }
-        copyDataToCurrentGrid();
-        std::cout << "\n\n\n\n\n";
-        printBoard();
-        std::this_thread::sleep_for (std::chrono::milliseconds(100));
-    }
 
-    void copyDataToCurrentGrid() {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 currentBoard[i][j] = tempBoard[i][j];
             }
         }
+
+    }
+
+    void loadFile() {
+        /*
+         * back();
+
+        std::string str;
+        std::ifstream myReadFile("/home/antares/CLionProjects/GameOfLife/game1/file.txt");
+        if (!myReadFile) {
+            std::cout << "wrong address to the file" << std::endl;
+            return;
+        }
+
+        while (getline(myReadFile, str)) {
+            {
+
+
+
+                std::cout << str << std::endl;
+
+
+            }
+        }
+        myReadFile.close();
+         */
+        std::cout << "load file";
+
     }
 };
 
