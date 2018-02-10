@@ -2,6 +2,7 @@
 #include <fstream>
 #include <chrono>
 #include <thread>
+#include <cstring>
 
 class Game {
     static const int height = 40;
@@ -62,6 +63,16 @@ public:
         return tempInput;
     }
 
+    char validateCharInput() {
+        std::string tempInput;
+        std::cin >> tempInput;
+        while (!isalpha(tempInput[0]) || (tempInput.size() > 1)) {
+            std::cout << "Enter choice again: ";
+            std::cin >> tempInput;
+        }
+        return tempInput[0];
+    }
+
     //int number of gens, bool printEveryGeneration
     void startGen() {
         int numberOfGenerations = 0;
@@ -82,7 +93,7 @@ public:
             }
             do {
                 std::cout << "Do you want to continue simulation? (y/n)";
-                std::cin >> answer;
+                answer = validateCharInput();
             } while (answer != 'y' && answer != 'n');
 
 
@@ -114,9 +125,10 @@ public:
                     print();
                     startGen();
                 }
-            } else return;
+            }
 
         } while (input != 3);
+        std::cout << "Bye";
     }
 
     int neighbours(int x, int y) {
