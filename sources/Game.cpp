@@ -23,7 +23,7 @@ void Game::loadPattern() {
     } while (input < 1 || input > 4);
 }
 
-void Game::printBack() {
+void Game::initBoards() {
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             currentBoard[i][j] = '.';
@@ -64,7 +64,7 @@ void Game::startSimulation() {
 
 
         for (int i = 0; i < numberOfGenerations; i++) {
-            nextGen();
+            nextGeneration();
             std::cout << "\n\n\n\n\n";
             outputToConsole();
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -78,7 +78,7 @@ void Game::startSimulation() {
     } while (answer == 'y');
 }
 
-void Game::nextGen() {
+void Game::nextGeneration() {
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
             if (currentBoard[i][j] == '0') {
@@ -181,11 +181,12 @@ void Game::outputToConsole() {
 }
 
 void Game::outputToFile(const std::string &path) {
-    std::ofstream stream;
+    std::ofstream stream(path);
 
-    stream.open(path);
-    if (!stream)
+    if (!stream) {
         std::cout << "Opening file failed" << std::endl;
+        return;
+    }
 
     for (int i = 0; i < height; i++) {
         for (int j = 0; j < width; j++) {
@@ -200,21 +201,22 @@ void Game::outputToFile(const std::string &path) {
     stream.close();
 }
 
-void Game::startSimulation(int numberOfGens) {
-    if (numberOfGens < 0) {
+void Game::startSimulation(int numberOfGenerations) {
+    if (numberOfGenerations < 0) {
         std::cout << "number of generations have to be >=0";
         return;
     }
 
-    for (int i = 0; i < numberOfGens; i++) {
-        nextGen();
+    for (int i = 0; i < numberOfGenerations; i++) {
+        nextGeneration();
     }
 }
 
 bool Game::loadFile(const std::string &path) {
-    printBack();
+    initBoards();
     std::string str;
     std::ifstream myReadFile(path);
+
     if (!myReadFile) {
         std::cout << "wrong address to the file" << std::endl;
         return false;

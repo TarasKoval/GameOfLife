@@ -33,7 +33,7 @@ int main() {
         allTestsPassed = false;
     }
 
-    //delete the file
+    //delete temp file
     if (remove("../resources/temp.txt") != 0) {
         std::cerr << "Error deleting file" << std::endl;
         exit(3);

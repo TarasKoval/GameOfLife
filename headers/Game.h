@@ -16,7 +16,7 @@ class Game {
 
     void loadPattern();
 
-    void printBack();
+    void initBoards();
 
     int validateIntInput();
 
@@ -24,7 +24,7 @@ class Game {
 
     void startSimulation();
 
-    void nextGen();
+    void nextGeneration();
 
     int neighbours(int x, int y);
 
@@ -39,7 +39,7 @@ public:
 
     void outputToFile(const std::string &path);
 
-    void startSimulation(int numberOfGens);
+    void startSimulation(int numberOfGenerations);
 
     bool loadFile(const std::string &path);
 };
