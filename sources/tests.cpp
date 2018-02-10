@@ -1,6 +1,6 @@
 #include <iostream>
-#include "headers/Game.h"
-#include "headers/checkFilesForEquality.h"
+#include "../headers/Game.h"
+#include "../headers/checkFilesForEquality.h"
 
 int main() {
     bool allTestsPassed = true;
