@@ -22,14 +22,16 @@ public:
             std::cout << "(1) Glider\n";
             std::cout << "(2) Pulsar (period 3)\n";
             std::cout << "(3) Glider gun\n";
+            std::cout << "(4) Blinker Toad Beacon\n";
 
             input = validateIntInput();
 
             if (input == 1) loadFile("../resources/glider.txt");
             else if (input == 2) loadFile("../resources/pulsar.txt");
-            else loadFile("../resources/gliderGun.txt");
+            else if (input == 3) loadFile("../resources/gliderGun.txt");
+            else if (input == 4) loadFile("../resources/blinkerToadBeacon.txt");
 
-        } while (input < 1 || input > 3);
+        } while (input < 1 || input > 4);
     }
 
     void printBack() {
@@ -54,7 +56,7 @@ public:
     int validateIntInput() {
         int tempInput;
         std::cin >> tempInput;
-        while (std::cin.fail()) {
+        while (std::cin.fail() || tempInput < 0) {
             std::cout << "Enter choice again: ";
             std::cin.clear();
             std::cin.ignore(256, '\n');
@@ -73,16 +75,24 @@ public:
         return tempInput[0];
     }
 
-    //int number of gens, bool printEveryGeneration
+    void startGen(int numberOfGens) {
+        if (numberOfGens < 0) {
+            std::cout << "number of generations have to be >=0";
+            return;
+        }
+
+        for (int i = 0; i < numberOfGens; i++) {
+            nextGen();
+        }
+    }
+
     void startGen() {
-        int numberOfGenerations = 0;
+        int numberOfGenerations;
         char answer;
         do {
 
-            do {
-                std::cout << "How many generations would you like to simulate? ";
-                numberOfGenerations = validateIntInput();
-            } while (numberOfGenerations < 0);
+            std::cout << "How many generations would you like to simulate? ";
+            numberOfGenerations = validateIntInput();
 
 
             for (int i = 0; i < numberOfGenerations; i++) {
@@ -128,7 +138,7 @@ public:
             }
 
         } while (input != 3);
-        std::cout << "Bye";
+        std::cout << "Bye" << std::endl;
     }
 
     int neighbours(int x, int y) {
@@ -205,7 +215,6 @@ public:
 
         int tempHeight = 0;
         while (getline(myReadFile, str)) {
-//            std::cout << str << std::endl;
             for (int i = 0; i < width; i++) {
                 currentBoard[tempHeight][i] = str[i];
             }
@@ -213,15 +222,80 @@ public:
         }
         myReadFile.close();
         return true;
-//        print();
-//        startGen();
+    }
 
+    void outputToFile(const std::string &path) {
+        std::ofstream stream;
+
+        stream.open(path);
+        if (!stream)
+            std::cout << "Opening file failed" << std::endl;
+
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                stream << currentBoard[i][j];
+            }
+            //doesn't write to file last empty line
+            if (i == height - 1) {
+                continue;
+            }
+            stream << std::endl;
+        }
+        stream.close();
     }
 };
 
+bool check(const std::string &path1, const std::string &path2) {
+    std::fstream f1, f2;
+    char char1, char2;
+    bool equality = true;
+
+    f1.open(path1, std::ios::in);
+    if (!f1) {
+        std::cout << "File can't be opened" << std::endl;
+        exit(1);
+    }
+
+    f2.open(path2, std::ios::in);
+    if (!f2) {
+        std::cout << "File can't be opened" << std::endl;
+        exit(2);
+    }
+
+    while (true) {
+        char1 = static_cast<char>(f1.get());
+        char2 = static_cast<char>(f2.get());
+        if (char1 != char2) {
+            equality = false;
+            break;
+        }
+        if ((char1 == EOF) || (char2 == EOF))
+            break;
+    }
+    f1.close();
+    f2.close();
+
+    return equality;
+}
+
 int main() {
     Game mainGame;
-    mainGame.showMenu();
+    mainGame.loadFile("../resources/glider.txt");
+    mainGame.startGen(40);
+//    mainGame.print();
+    mainGame.outputToFile("../resources/temp.txt");
+    std::cout << check("../resources/glider40Gen.txt", "../resources/temp.txt");
+
+    std::ofstream ofs;
+    ofs.open("../resources/temp.txt", std::ofstream::out | std::ofstream::trunc);
+    ofs.close();
+
+    mainGame.loadFile("../resources/blinkerToadBeacon.txt");
+    mainGame.startGen(1);
+//    mainGame.print();
+    mainGame.outputToFile("../resources/temp.txt");
+    std::cout << check("../resources/blinkerToadBeacon1Gen.txt", "../resources/temp.txt");
+
 
     return 0;
 }
