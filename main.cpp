@@ -10,10 +10,6 @@ class Game {
 
     char currentBoard[height][width];
     char tempBoard[height][width];
-public:
-    Game() { printBack(); }
-
-    ~Game() {}
 
     void loadPattern() {
         int input = 0;
@@ -43,16 +39,6 @@ public:
         }
     }
 
-    void print() {
-
-        for (int i = 0; i < height; i++) {
-            for (int j = 0; j < width; j++)
-                std::cout << currentBoard[i][j] << ' ';
-            std::cout << std::endl;
-
-        }
-    }
-
     int validateIntInput() {
         int tempInput;
         std::cin >> tempInput;
@@ -75,18 +61,7 @@ public:
         return tempInput[0];
     }
 
-    void startGen(int numberOfGens) {
-        if (numberOfGens < 0) {
-            std::cout << "number of generations have to be >=0";
-            return;
-        }
-
-        for (int i = 0; i < numberOfGens; i++) {
-            nextGen();
-        }
-    }
-
-    void startGen() {
+    void startSimulation() {
         int numberOfGenerations;
         char answer;
         do {
@@ -98,7 +73,7 @@ public:
             for (int i = 0; i < numberOfGenerations; i++) {
                 nextGen();
                 std::cout << "\n\n\n\n\n";
-                print();
+                outputToConsole();
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
             }
             do {
@@ -108,68 +83,6 @@ public:
 
 
         } while (answer == 'y');
-    }
-
-    void showMenu() {
-        int input = 0;
-        do {
-            do {
-                std::cout << "\n\n\n\nMenu\n";
-                std::cout << "(1) Start game with pattern\n";
-                std::cout << "(2) Start game with file\n";
-                std::cout << "(3) Exit\n";
-                input = validateIntInput();
-            } while (input < 1 || input > 3);
-
-            if (input == 1) {
-                printBack();
-                loadPattern();
-                print();
-                startGen();
-            } else if (input == 2) {
-                printBack();
-                std::string path;
-                std::cout << "input path to the file: ";
-                std::cin >> path;
-                if (loadFile(path)) {
-                    print();
-                    startGen();
-                }
-            }
-
-        } while (input != 3);
-        std::cout << "Bye" << std::endl;
-    }
-
-    int neighbours(int x, int y) {
-        int count = 0;
-
-        if (currentBoard[x - 1][y - 1] == '0') {
-            count += 1;
-        }
-        if (currentBoard[x - 1][y] == '0') {
-            count += 1;
-        }
-        if (currentBoard[x - 1][y + 1] == '0') {
-            count += 1;
-        }
-        if (currentBoard[x][y - 1] == '0') {
-            count += 1;
-        }
-        if (currentBoard[x][y + 1] == '0') {
-            count += 1;
-        }
-        if (currentBoard[x + 1][y - 1] == '0') {
-            count += 1;
-        }
-        if (currentBoard[x + 1][y] == '0') {
-            count += 1;
-        }
-        if (currentBoard[x + 1][y + 1] == '0') {
-            count += 1;
-        }
-
-        return count;
     }
 
     void nextGen() {
@@ -205,23 +118,80 @@ public:
 
     }
 
-    bool loadFile(const std::string &path) {
-        std::string str;
-        std::ifstream myReadFile(path);
-        if (!myReadFile) {
-            std::cout << "wrong address to the file" << std::endl;
-            return false;
+    int neighbours(int x, int y) {
+        int count = 0;
+
+        if (currentBoard[x - 1][y - 1] == '0') {
+            count += 1;
+        }
+        if (currentBoard[x - 1][y] == '0') {
+            count += 1;
+        }
+        if (currentBoard[x - 1][y + 1] == '0') {
+            count += 1;
+        }
+        if (currentBoard[x][y - 1] == '0') {
+            count += 1;
+        }
+        if (currentBoard[x][y + 1] == '0') {
+            count += 1;
+        }
+        if (currentBoard[x + 1][y - 1] == '0') {
+            count += 1;
+        }
+        if (currentBoard[x + 1][y] == '0') {
+            count += 1;
+        }
+        if (currentBoard[x + 1][y + 1] == '0') {
+            count += 1;
         }
 
-        int tempHeight = 0;
-        while (getline(myReadFile, str)) {
-            for (int i = 0; i < width; i++) {
-                currentBoard[tempHeight][i] = str[i];
+        return count;
+    }
+
+public:
+    Game() { printBack(); }
+
+    ~Game() {}
+
+    void showMenu() {
+        int input = 0;
+        do {
+            do {
+                std::cout << "\n\n\n\nMenu\n";
+                std::cout << "(1) Start game with pattern\n";
+                std::cout << "(2) Start game with file\n";
+                std::cout << "(3) Exit\n";
+                input = validateIntInput();
+            } while (input < 1 || input > 3);
+
+            if (input == 1) {
+                printBack();
+                loadPattern();
+                outputToConsole();
+                startSimulation();
+            } else if (input == 2) {
+                printBack();
+                std::string path;
+                std::cout << "input path to the file: ";
+                std::cin >> path;
+                if (loadFile(path)) {
+                    outputToConsole();
+                    startSimulation();
+                }
             }
-            tempHeight++;
+
+        } while (input != 3);
+        std::cout << "Bye" << std::endl;
+    }
+
+    void outputToConsole() {
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                std::cout << currentBoard[i][j] << ' ';
+            }
+            std::cout << std::endl;
         }
-        myReadFile.close();
-        return true;
     }
 
     void outputToFile(const std::string &path) {
@@ -243,22 +213,52 @@ public:
         }
         stream.close();
     }
+
+    void startGen(int numberOfGens) {
+        if (numberOfGens < 0) {
+            std::cout << "number of generations have to be >=0";
+            return;
+        }
+
+        for (int i = 0; i < numberOfGens; i++) {
+            nextGen();
+        }
+    }
+
+    bool loadFile(const std::string &path) {
+        std::string str;
+        std::ifstream myReadFile(path);
+        if (!myReadFile) {
+            std::cout << "wrong address to the file" << std::endl;
+            return false;
+        }
+
+        int tempHeight = 0;
+        while (getline(myReadFile, str)) {
+            for (int i = 0; i < width; i++) {
+                currentBoard[tempHeight][i] = str[i];
+            }
+            tempHeight++;
+        }
+        myReadFile.close();
+        return true;
+    }
 };
 
-bool check(const std::string &path1, const std::string &path2) {
+bool checkFilesForEquality(const std::string &path1, const std::string &path2) {
     std::fstream f1, f2;
     char char1, char2;
     bool equality = true;
 
     f1.open(path1, std::ios::in);
     if (!f1) {
-        std::cout << "File can't be opened" << std::endl;
+        std::cerr << "File can't be opened" << std::endl;
         exit(1);
     }
 
     f2.open(path2, std::ios::in);
     if (!f2) {
-        std::cout << "File can't be opened" << std::endl;
+        std::cerr << "File can't be opened" << std::endl;
         exit(2);
     }
 
@@ -279,23 +279,47 @@ bool check(const std::string &path1, const std::string &path2) {
 }
 
 int main() {
+    bool allTestsPassed = true;
+
     Game mainGame;
     mainGame.loadFile("../resources/glider.txt");
     mainGame.startGen(40);
-//    mainGame.print();
     mainGame.outputToFile("../resources/temp.txt");
-    std::cout << check("../resources/glider40Gen.txt", "../resources/temp.txt");
 
+    if (checkFilesForEquality("../resources/glider40Gen.txt", "../resources/temp.txt")) {
+        std::cout << "First Test Passed" << std::endl;
+    } else {
+        std::cout << "First Test Failed" << std::endl;
+        allTestsPassed = false;
+    }
+
+    //clear the file
     std::ofstream ofs;
     ofs.open("../resources/temp.txt", std::ofstream::out | std::ofstream::trunc);
     ofs.close();
 
     mainGame.loadFile("../resources/blinkerToadBeacon.txt");
     mainGame.startGen(1);
-//    mainGame.print();
     mainGame.outputToFile("../resources/temp.txt");
-    std::cout << check("../resources/blinkerToadBeacon1Gen.txt", "../resources/temp.txt");
 
+    if (checkFilesForEquality("../resources/blinkerToadBeacon1Gen.txt", "../resources/temp.txt")) {
+        std::cout << "Second Test Passed" << std::endl;
+    } else {
+        std::cout << "Second Test Failed" << std::endl;
+        allTestsPassed = false;
+    }
+
+    //delete the file
+    if (remove("../resources/temp.txt") != 0) {
+        std::cerr << "Error deleting file" << std::endl;
+        exit(3);
+    }
+
+    if (allTestsPassed) {
+        std::cout << "\nAll Tests Passed" << std::endl;
+    } else {
+        std::cout << "Tests failed" << std::endl;
+    }
 
     return 0;
 }
