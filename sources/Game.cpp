@@ -154,12 +154,10 @@ void Game::showMenu() {
         } while (input < 1 || input > 3);
 
         if (input == 1) {
-            printBack();
             loadPattern();
             outputToConsole();
             startSimulation();
         } else if (input == 2) {
-            printBack();
             std::string path;
             std::cout << "input path to the file: ";
             std::cin >> path;
@@ -214,6 +212,7 @@ void Game::startSimulation(int numberOfGens) {
 }
 
 bool Game::loadFile(const std::string &path) {
+    printBack();
     std::string str;
     std::ifstream myReadFile(path);
     if (!myReadFile) {
@@ -223,9 +222,14 @@ bool Game::loadFile(const std::string &path) {
 
     int tempHeight = 0;
     while (getline(myReadFile, str)) {
-        for (int i = 0; i < width; i++) {
-            currentBoard[tempHeight][i] = str[i];
+        for (int i = 0; (i < str.length()) && (i < width); i++) {
+            if (str[i] != '.' && str[i] != '0') {
+                currentBoard[tempHeight][i] = '.';
+            } else {
+                currentBoard[tempHeight][i] = str[i];
+            }
         }
+
         tempHeight++;
     }
     myReadFile.close();
