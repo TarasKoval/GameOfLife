@@ -10,7 +10,7 @@ class Game {
     char currentBoard[height][width];
     char tempBoard[height][width];
 public:
-    Game() {}
+    Game() { printBack(); }
 
     ~Game() {}
 
@@ -41,8 +41,6 @@ public:
     }
 
     void gliderPattern() {
-        printBack();
-
         currentBoard[0][1] = '0';
         currentBoard[1][2] = '0';
         currentBoard[2][0] = '0';
@@ -51,8 +49,6 @@ public:
     }
 
     void pulsarPattern() {
-        printBack();
-
         currentBoard[2][4] = '0';
         currentBoard[2][5] = '0';
         currentBoard[2][6] = '0';
@@ -113,8 +109,6 @@ public:
     }
 
     void gliderGunPattern() {
-        printBack();
-
         currentBoard[5][1] = '0';
         currentBoard[6][1] = '0';
         currentBoard[5][2] = '0';
@@ -156,7 +150,7 @@ public:
         currentBoard[4][36] = '0';
     }
 
-    void printBoard() {
+    void print() {
 
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++)
@@ -166,6 +160,7 @@ public:
         }
     }
 
+    //int number of gens, bool printEveryGeneration
     void startGen() {
         int numberOfGenerations = 0;
         char answer;
@@ -174,13 +169,13 @@ public:
             do {
                 std::cout << "How many generations would you like to simulate? ";
                 std::cin >> numberOfGenerations;
-            } while (numberOfGenerations < 1 || numberOfGenerations > 300);
+            } while (numberOfGenerations < 0);
 
 
             for (int i = 0; i < numberOfGenerations; i++) {
                 nextGen();
                 std::cout << "\n\n\n\n\n";
-                printBoard();
+                print();
                 std::this_thread::sleep_for(std::chrono::milliseconds(100));
             }
             do {
@@ -204,8 +199,9 @@ public:
             } while (input < 1 || input > 3);
 
             if (input == 1) {
+                printBack();
                 loadPattern();
-                printBoard();
+                print();
                 startGen();
             } else if (input == 2) {
                 loadFile();
