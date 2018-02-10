@@ -22,11 +22,11 @@ public:
             std::cout << "(2) Pulsar (period 3)\n";
             std::cout << "(3) Glider gun\n";
 
-            std::cin >> input;
+            input = validateIntInput();
 
-            if (input == 1) gliderPattern();
-            else if (input == 2) pulsarPattern();
-            else gliderGunPattern();
+            if (input == 1) loadFile("../resources/glider.txt");
+            else if (input == 2) loadFile("../resources/pulsar.txt");
+            else loadFile("../resources/gliderGun.txt");
 
         } while (input < 1 || input > 3);
     }
@@ -40,116 +40,6 @@ public:
         }
     }
 
-    void gliderPattern() {
-        currentBoard[0][1] = '0';
-        currentBoard[1][2] = '0';
-        currentBoard[2][0] = '0';
-        currentBoard[2][1] = '0';
-        currentBoard[2][2] = '0';
-    }
-
-    void pulsarPattern() {
-        currentBoard[2][4] = '0';
-        currentBoard[2][5] = '0';
-        currentBoard[2][6] = '0';
-        currentBoard[2][10] = '0';
-        currentBoard[2][11] = '0';
-        currentBoard[2][12] = '0';
-
-        currentBoard[4][2] = '0';
-        currentBoard[4][7] = '0';
-        currentBoard[4][9] = '0';
-        currentBoard[4][14] = '0';
-
-        currentBoard[5][2] = '0';
-        currentBoard[5][7] = '0';
-        currentBoard[5][9] = '0';
-        currentBoard[5][14] = '0';
-
-        currentBoard[6][2] = '0';
-        currentBoard[6][7] = '0';
-        currentBoard[6][9] = '0';
-        currentBoard[6][14] = '0';
-
-        currentBoard[7][4] = '0';
-        currentBoard[7][5] = '0';
-        currentBoard[7][6] = '0';
-        currentBoard[7][10] = '0';
-        currentBoard[7][11] = '0';
-        currentBoard[7][12] = '0';
-
-        currentBoard[9][4] = '0';
-        currentBoard[9][5] = '0';
-        currentBoard[9][6] = '0';
-        currentBoard[9][10] = '0';
-        currentBoard[9][11] = '0';
-        currentBoard[9][12] = '0';
-
-        currentBoard[10][2] = '0';
-        currentBoard[10][7] = '0';
-        currentBoard[10][9] = '0';
-        currentBoard[10][14] = '0';
-
-        currentBoard[11][2] = '0';
-        currentBoard[11][7] = '0';
-        currentBoard[11][9] = '0';
-        currentBoard[11][14] = '0';
-
-        currentBoard[12][2] = '0';
-        currentBoard[12][7] = '0';
-        currentBoard[12][9] = '0';
-        currentBoard[12][14] = '0';
-
-        currentBoard[14][4] = '0';
-        currentBoard[14][5] = '0';
-        currentBoard[14][6] = '0';
-        currentBoard[14][10] = '0';
-        currentBoard[14][11] = '0';
-        currentBoard[14][12] = '0';
-    }
-
-    void gliderGunPattern() {
-        currentBoard[5][1] = '0';
-        currentBoard[6][1] = '0';
-        currentBoard[5][2] = '0';
-        currentBoard[6][2] = '0';
-
-        currentBoard[5][11] = '0';
-        currentBoard[6][11] = '0';
-        currentBoard[7][11] = '0';
-        currentBoard[4][12] = '0';
-        currentBoard[8][12] = '0';
-        currentBoard[3][13] = '0';
-        currentBoard[9][13] = '0';
-        currentBoard[3][14] = '0';
-        currentBoard[9][14] = '0';
-        currentBoard[6][15] = '0';
-        currentBoard[4][16] = '0';
-        currentBoard[8][16] = '0';
-        currentBoard[5][17] = '0';
-        currentBoard[6][17] = '0';
-        currentBoard[7][17] = '0';
-        currentBoard[6][18] = '0';
-
-        currentBoard[3][21] = '0';
-        currentBoard[4][21] = '0';
-        currentBoard[5][21] = '0';
-        currentBoard[3][22] = '0';
-        currentBoard[4][22] = '0';
-        currentBoard[5][22] = '0';
-        currentBoard[2][23] = '0';
-        currentBoard[6][23] = '0';
-        currentBoard[1][25] = '0';
-        currentBoard[2][25] = '0';
-        currentBoard[6][25] = '0';
-        currentBoard[7][25] = '0';
-
-        currentBoard[3][35] = '0';
-        currentBoard[4][35] = '0';
-        currentBoard[3][36] = '0';
-        currentBoard[4][36] = '0';
-    }
-
     void print() {
 
         for (int i = 0; i < height; i++) {
@@ -160,6 +50,18 @@ public:
         }
     }
 
+    int validateIntInput() {
+        int tempInput;
+        std::cin >> tempInput;
+        while (std::cin.fail()) {
+            std::cout << "Enter choice again: ";
+            std::cin.clear();
+            std::cin.ignore(256, '\n');
+            std::cin >> tempInput;
+        }
+        return tempInput;
+    }
+
     //int number of gens, bool printEveryGeneration
     void startGen() {
         int numberOfGenerations = 0;
@@ -168,7 +70,7 @@ public:
 
             do {
                 std::cout << "How many generations would you like to simulate? ";
-                std::cin >> numberOfGenerations;
+                numberOfGenerations = validateIntInput();
             } while (numberOfGenerations < 0);
 
 
@@ -195,7 +97,7 @@ public:
                 std::cout << "(1) Start game with pattern\n";
                 std::cout << "(2) Start game with file\n";
                 std::cout << "(3) Exit\n";
-                std::cin >> input;
+                input = validateIntInput();
             } while (input < 1 || input > 3);
 
             if (input == 1) {
@@ -204,7 +106,14 @@ public:
                 print();
                 startGen();
             } else if (input == 2) {
-                loadFile();
+                printBack();
+                std::string path;
+                std::cout << "input path to the file: ";
+                std::cin >> path;
+                if (loadFile(path)) {
+                    print();
+                    startGen();
+                }
             } else return;
 
         } while (input != 3);
@@ -274,30 +183,26 @@ public:
 
     }
 
-    void loadFile() {
-        /*
-         * back();
-
+    bool loadFile(const std::string &path) {
         std::string str;
-        std::ifstream myReadFile("/home/antares/CLionProjects/GameOfLife/game1/file.txt");
+        std::ifstream myReadFile(path);
         if (!myReadFile) {
             std::cout << "wrong address to the file" << std::endl;
-            return;
+            return false;
         }
 
+        int tempHeight = 0;
         while (getline(myReadFile, str)) {
-            {
-
-
-
-                std::cout << str << std::endl;
-
-
+//            std::cout << str << std::endl;
+            for (int i = 0; i < width; i++) {
+                currentBoard[tempHeight][i] = str[i];
             }
+            tempHeight++;
         }
         myReadFile.close();
-         */
-        std::cout << "load file";
+        return true;
+//        print();
+//        startGen();
 
     }
 };
