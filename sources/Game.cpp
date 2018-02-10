@@ -202,7 +202,7 @@ void Game::outputToFile(const std::string &path) {
     stream.close();
 }
 
-void Game::startGen(int numberOfGens) {
+void Game::startSimulation(int numberOfGens) {
     if (numberOfGens < 0) {
         std::cout << "number of generations have to be >=0";
         return;

@@ -39,7 +39,7 @@ public:
 
     void outputToFile(const std::string &path);
 
-    void startGen(int numberOfGens);
+    void startSimulation(int numberOfGens);
 
     bool loadFile(const std::string &path);
 };

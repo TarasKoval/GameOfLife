@@ -7,7 +7,7 @@ int main() {
 
     Game mainGame;
     mainGame.loadFile("../resources/glider.txt");
-    mainGame.startGen(40);
+    mainGame.startSimulation(40);
     mainGame.outputToFile("../resources/temp.txt");
 
     if (checkFilesForEquality("../resources/glider40Gen.txt", "../resources/temp.txt")) {
@@ -23,7 +23,7 @@ int main() {
     ofs.close();
 
     mainGame.loadFile("../resources/blinkerToadBeacon.txt");
-    mainGame.startGen(1);
+    mainGame.startSimulation(1);
     mainGame.outputToFile("../resources/temp.txt");
 
     if (checkFilesForEquality("../resources/blinkerToadBeacon1Gen.txt", "../resources/temp.txt")) {
