@@ -1,8 +1,8 @@
 #include "../headers/Game.h"
 
-Game::Game() {}
+Game::Game() = default;
 
-Game::~Game() {}
+Game::~Game() = default;
 
 void Game::loadPattern() {
     int input = 0;

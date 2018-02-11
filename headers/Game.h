@@ -33,6 +33,10 @@ public:
 
     ~Game();
 
+    Game(const Game &) = delete;
+
+    Game &operator=(const Game &) = delete;
+
     void showMenu();
 
     void outputToConsole();
