@@ -14,7 +14,7 @@ class Game {
     char currentBoard[height][width];
     char tempBoard[height][width];
 
-    void loadPattern();
+    bool loadPattern();
 
     void initBoards();
 

@@ -4,7 +4,7 @@ Game::Game() = default;
 
 Game::~Game() = default;
 
-void Game::loadPattern() {
+bool Game::loadPattern() {
     int input = 0;
     do {
         std::cout << "\n\n\n\nChose pattern\n";
@@ -15,10 +15,10 @@ void Game::loadPattern() {
 
         input = validateIntInput();
 
-        if (input == 1) loadFile("../resources/glider.txt");
-        else if (input == 2) loadFile("../resources/pulsar.txt");
-        else if (input == 3) loadFile("../resources/gliderGun.txt");
-        else if (input == 4) loadFile("../resources/blinkerToadBeacon.txt");
+        if (input == 1) return loadFile("../resources/glider.txt");
+        else if (input == 2) return loadFile("../resources/pulsar.txt");
+        else if (input == 3) return loadFile("../resources/gliderGun.txt");
+        else if (input == 4) return loadFile("../resources/blinkerToadBeacon.txt");
 
     } while (input < 1 || input > 4);
 }
@@ -65,6 +65,7 @@ void Game::startSimulation() {
 
         for (int i = 0; i < numberOfGenerations; i++) {
             nextGeneration();
+            // uses next line for platform-independent output, on Ubuntu looks good
             std::cout << "\n\n\n\n\n";
             outputToConsole();
             std::this_thread::sleep_for(std::chrono::milliseconds(100));
@@ -154,9 +155,10 @@ void Game::showMenu() {
         } while (input < 1 || input > 3);
 
         if (input == 1) {
-            loadPattern();
-            outputToConsole();
-            startSimulation();
+            if (loadPattern()) {
+                outputToConsole();
+                startSimulation();
+            }
         } else if (input == 2) {
             std::string path;
             std::cout << "input path to the file: ";
@@ -218,7 +220,7 @@ bool Game::loadFile(const std::string &path) {
     std::ifstream myReadFile(path);
 
     if (!myReadFile) {
-        std::cout << "wrong address to the file" << std::endl;
+        std::cout << "\nWrong address to the file" << std::endl;
         return false;
     }
 
