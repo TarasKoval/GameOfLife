@@ -115,28 +115,28 @@ void Game::nextGeneration() {
 int Game::neighbours(int x, int y) {
     int count = 0;
 
-    if (currentBoard[modulo(x - 1, height)][modulo(y - 1, height)] == '0') {
+    if (currentBoard[modulo(x - 1, height)][modulo(y - 1, width)] == '0') {
         count += 1;
     }
-    if (currentBoard[modulo(x - 1, height)][modulo(y, height)] == '0') {
+    if (currentBoard[modulo(x - 1, height)][modulo(y, width)] == '0') {
         count += 1;
     }
-    if (currentBoard[modulo(x - 1, height)][modulo(y + 1, height)] == '0') {
+    if (currentBoard[modulo(x - 1, height)][modulo(y + 1, width)] == '0') {
         count += 1;
     }
-    if (currentBoard[modulo(x, height)][modulo(y - 1, height)] == '0') {
+    if (currentBoard[modulo(x, height)][modulo(y - 1, width)] == '0') {
         count += 1;
     }
-    if (currentBoard[modulo(x, height)][modulo(y + 1, height)] == '0') {
+    if (currentBoard[modulo(x, height)][modulo(y + 1, width)] == '0') {
         count += 1;
     }
-    if (currentBoard[modulo(x + 1, height)][modulo(y - 1, height)] == '0') {
+    if (currentBoard[modulo(x + 1, height)][modulo(y - 1, width)] == '0') {
         count += 1;
     }
-    if (currentBoard[modulo(x + 1, height)][modulo(y, height)] == '0') {
+    if (currentBoard[modulo(x + 1, height)][modulo(y, width)] == '0') {
         count += 1;
     }
-    if (currentBoard[modulo(x + 1, height)][modulo(y + 1, height)] == '0') {
+    if (currentBoard[modulo(x + 1, height)][modulo(y + 1, width)] == '0') {
         count += 1;
     }
 
