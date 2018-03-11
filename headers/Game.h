@@ -28,6 +28,8 @@ class Game {
 
     int neighbours(int x, int y);
 
+    int modulo(int number, int base);
+
 public:
     Game();
 

@@ -115,28 +115,28 @@ void Game::nextGeneration() {
 int Game::neighbours(int x, int y) {
     int count = 0;
 
-    if (currentBoard[x - 1][y - 1] == '0') {
+    if (currentBoard[modulo(x - 1, height)][modulo(y - 1, height)] == '0') {
         count += 1;
     }
-    if (currentBoard[x - 1][y] == '0') {
+    if (currentBoard[modulo(x - 1, height)][modulo(y, height)] == '0') {
         count += 1;
     }
-    if (currentBoard[x - 1][y + 1] == '0') {
+    if (currentBoard[modulo(x - 1, height)][modulo(y + 1, height)] == '0') {
         count += 1;
     }
-    if (currentBoard[x][y - 1] == '0') {
+    if (currentBoard[modulo(x, height)][modulo(y - 1, height)] == '0') {
         count += 1;
     }
-    if (currentBoard[x][y + 1] == '0') {
+    if (currentBoard[modulo(x, height)][modulo(y + 1, height)] == '0') {
         count += 1;
     }
-    if (currentBoard[x + 1][y - 1] == '0') {
+    if (currentBoard[modulo(x + 1, height)][modulo(y - 1, height)] == '0') {
         count += 1;
     }
-    if (currentBoard[x + 1][y] == '0') {
+    if (currentBoard[modulo(x + 1, height)][modulo(y, height)] == '0') {
         count += 1;
     }
-    if (currentBoard[x + 1][y + 1] == '0') {
+    if (currentBoard[modulo(x + 1, height)][modulo(y + 1, height)] == '0') {
         count += 1;
     }
 
@@ -238,4 +238,12 @@ bool Game::loadFile(const std::string &path) {
     }
     myReadFile.close();
     return true;
+}
+
+int Game::modulo(int number, int base) {
+    while (number < 0) {
+        number += base;
+    }
+    number = number % base;
+    return number;
 }
