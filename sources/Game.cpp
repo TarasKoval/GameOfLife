@@ -118,22 +118,22 @@ int Game::neighbours(int x, int y) {
     if (currentBoard[modulo(x - 1, height)][modulo(y - 1, width)] == '0') {
         count += 1;
     }
-    if (currentBoard[modulo(x - 1, height)][modulo(y, width)] == '0') {
+    if (currentBoard[modulo(x - 1, height)][y] == '0') {
         count += 1;
     }
     if (currentBoard[modulo(x - 1, height)][modulo(y + 1, width)] == '0') {
         count += 1;
     }
-    if (currentBoard[modulo(x, height)][modulo(y - 1, width)] == '0') {
+    if (currentBoard[x][modulo(y - 1, width)] == '0') {
         count += 1;
     }
-    if (currentBoard[modulo(x, height)][modulo(y + 1, width)] == '0') {
+    if (currentBoard[x][modulo(y + 1, width)] == '0') {
         count += 1;
     }
     if (currentBoard[modulo(x + 1, height)][modulo(y - 1, width)] == '0') {
         count += 1;
     }
-    if (currentBoard[modulo(x + 1, height)][modulo(y, width)] == '0') {
+    if (currentBoard[modulo(x + 1, height)][y] == '0') {
         count += 1;
     }
     if (currentBoard[modulo(x + 1, height)][modulo(y + 1, width)] == '0') {
