@@ -108,9 +108,3 @@ That's mean you need to through the Installation: Forth step.
 ## License
 
 No license - do what you want
-
-## Acknowledgments
-
-* Hat tip to anyone whose code was used
-* Inspiration
-* etc
