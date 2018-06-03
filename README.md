@@ -15,6 +15,8 @@ In bash:
     make
 ```
 
+The executable will be placed in "build" folder.
+
 ## Author
 
 * **Taras Koval** - *All work* - [TarasKoval](https://github.com/TarasKoval)
