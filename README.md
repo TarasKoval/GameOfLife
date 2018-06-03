@@ -2,29 +2,9 @@
  
 OOP implementation of famous Game of Life
 
-## Getting Started
-
-### Prerequisites
-
-I use CMake to build the system.
-
-You need to have CMake 3.5.2
-
 ## Installing
 
 ### First step:
-
-Good installer with separate executable files will be in the next versions, but for now:
-
-In CMakeLists.txt you need to left one of three lines:
-
-```
-sources/main.cpp
-sources/tests.cpp
-sources/fastSimulation.cpp
-```
-
-### Second step:
 
 In bash:
 
@@ -63,43 +43,13 @@ Output (approximately):
 Output (approximately):
 
 ```
-Scanning dependencies of target mainGame
-[ 25%] Building CXX object CMakeFiles/mainGame.dir/sources/main.cpp.o
-[ 50%] Building CXX object CMakeFiles/mainGame.dir/sources/Game.cpp.o
-[ 75%] Building CXX object CMakeFiles/mainGame.dir/sources/checkFilesForEquality.cpp.o
-[100%] Linking CXX executable mainGame
-[100%] Built target mainGame
+Scanning dependencies of target GameOfLife
+[ 25%] Building CXX object CMakeFiles/GameOfLife.dir/sources/main.cpp.o
+[ 50%] Building CXX object CMakeFiles/GameOfLife.dir/sources/Game.cpp.o
+[ 75%] Building CXX object CMakeFiles/GameOfLife.dir/sources/functions.cpp.o
+[100%] Linking CXX executable build/GameOfLife
+[100%] Built target GameOfLife
 ```
-
-### Forth step:
-
-In this version, I have dependencies on resource folder.
-
-So you have to put the executable file in any folder inside the project.
-
-Folder structer need to look like this: /projectFolder/randomFolderName/mainGame
-
-Then run the executable.
-
-## Running the tests
-
-In CMakeLists.txt leave next line:
-
-```
-    sources/tests.cpp
-```
-
-And go through the installation process.
-
-## Error handling
-
-If you chose to start the game with pattern and after choosing the pattern, you got next message:
-
-```
-Wrong address to the file
-```
-
-That's mean you need to through the Installation: Forth step.
 
 ## Author
 
