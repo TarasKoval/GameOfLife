@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <fstream>
-#include "../headers/Game.h"
+#include "../include/Game.h"
 
 bool checkFilesForEquality(const std::string &path1, const std::string &path2);
 

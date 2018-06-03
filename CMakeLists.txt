@@ -5,11 +5,7 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${GameOfLife_SOURCE_DIR}/build)
 
 add_executable(GameOfLife
-# use one of three:
-        sources/main.cpp
-
-        headers/Game.h
-        headers/functions.h
-        sources/Game.cpp
-        sources/functions.cpp
+        src/main.cpp
+        src/Game.cpp
+        src/functions.cpp
         )

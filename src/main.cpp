@@ -1,6 +1,6 @@
 #include <iostream>
-#include "../headers/Game.h"
-#include "../headers/functions.h"
+#include "../include/Game.h"
+#include "../include/functions.h"
 
 int main() {
 

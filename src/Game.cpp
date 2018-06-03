@@ -1,4 +1,4 @@
-#include "../headers/Game.h"
+#include "../include/Game.h"
 
 Game::Game() = default;
 
