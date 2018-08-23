@@ -242,9 +242,5 @@ bool Game::loadFile(const std::string &path) {
 }
 
 int Game::modulo(int number, int base) {
-    while (number < 0) {
-        number += base;
-    }
-    number = number % base;
-    return number;
+    return (number < 0 ? (number % base) + base : number % base);
 }
