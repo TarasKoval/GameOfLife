@@ -1,4 +1,4 @@
-#include "../include/functions.h"
+#include "functions.h"
 
 bool checkFilesForEquality(const std::string &path1, const std::string &path2) {
     std::fstream stream1, stream2;
