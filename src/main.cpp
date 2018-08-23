@@ -1,11 +1,7 @@
 #include <iostream>
 #include "Game.h"
-#include "functions.h"
 
 int main() {
-
-    tests();
-
     std::cout << "\nFast Simulation\n";
     Game simulation;
     simulation.loadFile("../resources/gliderGun.txt");
