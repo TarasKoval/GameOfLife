@@ -1,5 +1,5 @@
-#ifndef MAINGAME_GAME_H
-#define MAINGAME_GAME_H
+#ifndef MAIN_GAME_GAME_H
+#define MAIN_GAME_GAME_H
 
 #include <iostream>
 #include <fstream>
@@ -50,4 +50,4 @@ public:
     bool loadFile(const std::string &path);
 };
 
-#endif //MAINGAME_GAME_H
+#endif //MAIN_GAME_GAME_H

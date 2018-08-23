@@ -21,6 +21,7 @@ bool Game::loadPattern() {
         else if (input == 4) return loadFile("../resources/blinkerToadBeacon.txt");
 
     } while (input < 1 || input > 4);
+    return false;
 }
 
 void Game::initBoards() {
@@ -174,9 +175,9 @@ void Game::showMenu() {
 }
 
 void Game::outputToConsole() {
-    for (int i = 0; i < height; i++) {
-        for (int j = 0; j < width; j++) {
-            std::cout << currentBoard[i][j] << ' ';
+    for (auto &i : currentBoard) {
+        for (char j : i) {
+            std::cout << j << ' ';
         }
         std::cout << std::endl;
     }

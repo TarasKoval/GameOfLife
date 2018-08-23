@@ -1,5 +1,5 @@
-#ifndef MAINGAME_CHECKFILESFOREQUALITY_H
-#define MAINGAME_CHECKFILESFOREQUALITY_H
+#ifndef MAIN_GAME_FUNCTIONS_H
+#define MAIN_GAME_FUNCTIONS_H
 
 #include <iostream>
 #include <fstream>
@@ -9,4 +9,4 @@ bool checkFilesForEquality(const std::string &path1, const std::string &path2);
 
 void tests();
 
-#endif //MAINGAME_CHECKFILESFOREQUALITY_H
+#endif //MAIN_GAME_FUNCTIONS_H
